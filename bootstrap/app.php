@@ -11,10 +11,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        // TEMPORAL: CSRF desactivado para pruebas locales. Reactivar antes de producción.
-        $middleware->validateCsrfTokens(except: [
-            '*',
-        ]);
+        //
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
