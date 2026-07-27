@@ -171,6 +171,7 @@ return [
 		'es' => [
 			'admin' => [
 				'media' => [0 => 'Multimedia'], // renamed from "Medios de comunicación" (admin panel tab)
+				'text' => [0 => 'Descripción'], // renamed from "texto" (admin panel tab)
 			],
 		],
 	],
