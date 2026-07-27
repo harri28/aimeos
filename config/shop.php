@@ -192,6 +192,13 @@ return [
 				'extensions' => [
 					'image/avif' => 'avif', // allow AVIF image uploads
 				],
+				'allowedtypes' => [
+					// default list (aimeos-core Media/Manager/Base.php) plus image/avif
+					'image/webp', 'image/jpeg', 'image/png', 'image/gif', 'image/svg+xml', 'image/avif',
+					'application/epub+zip', 'application/pdf', 'application/zip',
+					'video/mp4', 'video/webm',
+					'audio/mpeg', 'audio/ogg', 'audio/weba',
+				],
 			],
 		],
 	],
