@@ -710,15 +710,25 @@ body > .content, body .main-section {
 	.navbar-top {
 		flex-wrap: nowrap;
 		align-items: center;
+		justify-content: flex-start;
+	}
+
+	.navbar-top > .locale-select {
+		margin-inline-start: auto;
 	}
 
 	.navbar-brand {
-		order: 0;
+		order: 1;
+		margin-right: 0 !important;
 	}
 
 	.navbar-collapse {
-		order: 1;
+		order: 0;
 		flex-grow: 0;
+	}
+
+	.navbar-collapse .catalog-filter-tree .menu {
+		padding-right: 0 !important;
 	}
 
 	.navbar-top > .locale-select,
