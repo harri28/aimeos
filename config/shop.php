@@ -186,7 +186,14 @@ return [
 	'mshop' => [
 		'locale' => [
 			// 'site' => '<custom site code>', // used instead of "default"
-		]
+		],
+		'media' => [
+			'manager' => [
+				'extensions' => [
+					'image/avif' => 'avif', // allow AVIF image uploads
+				],
+			],
+		],
 	],
 
 
