@@ -1164,6 +1164,17 @@ body > .content, body .main-section {
 	justify-content: center !important;
 }
 
+/* Show "Agregar al carrito" as text instead of the basket icon */
+
+.catalog-list-items .addbasket .btn-primary {
+	font-size: 85%;
+	letter-spacing: normal;
+}
+
+.catalog-list-items .addbasket .btn-primary::before {
+	content: none !important;
+}
+
 .aimeos .product .stockitem {
 	display: none;
 }

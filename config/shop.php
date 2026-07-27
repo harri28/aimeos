@@ -173,6 +173,9 @@ return [
 				'media' => [0 => 'Multimedia'], // renamed from "Medios de comunicación" (admin panel tab)
 				'text' => [0 => 'Descripción'], // renamed from "texto" (admin panel tab)
 			],
+			'client' => [
+				'Add to basket' => [0 => 'Agregar al carrito'], // renamed from "Añadir a la cesta"
+			],
 		],
 	],
 
