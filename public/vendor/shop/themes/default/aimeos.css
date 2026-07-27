@@ -702,8 +702,9 @@ body > .content, body .main-section {
 
 @media (max-width:767px) {
 	.navbar-brand img {
-		width: 120px;
-		height: auto;
+		width: auto;
+		max-height: 40px;
+		max-width: 120px;
 	}
 
 	.navbar-expand-md .navbar-collapse {
