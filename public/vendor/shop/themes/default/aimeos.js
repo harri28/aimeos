@@ -176,6 +176,23 @@ Aimeos = {
 
 
 	/**
+	 * Shows and hides the profile offscreen menu
+	 */
+	onToggleProfile() {
+
+		$('.profile-mini .menu').on('click', () => {
+			$('.profile-mini .aimeos-overlay-offscreen').addClass('show');
+			$('.profile-mini .zeynep').addClass('opened');
+		});
+
+		$('.profile-mini .close').on('click', () => {
+			$('.profile-mini .aimeos-overlay-offscreen').removeClass('show');
+			$('.profile-mini .zeynep').removeClass('opened');
+		});
+	},
+
+
+	/**
 	 * Initializes the setup methods
 	 */
 	init() {
@@ -184,6 +201,7 @@ Aimeos = {
 
 		this.loadImages();
 		this.onCloseContainer();
+		this.onToggleProfile();
 	}
 };
 
@@ -208,7 +226,7 @@ AimeosBasket = {
 	/**
 	 * Updates the basket without page reload
 	 */
-	updateBasket(data) {
+	updateBasket(data, flash) {
 		const doc = $("<html/>").html(data);
 		const basket = $(".aimeos.basket-standard", doc);
 
@@ -256,6 +274,10 @@ AimeosBasket = {
 					return response.json();
 				}).then(basket => {
 					AimeosBasketMini.updateBasket(basket);
+
+					if(flash) {
+						AimeosBasketMini.flashOpen();
+					}
 				});
 			});
 		}

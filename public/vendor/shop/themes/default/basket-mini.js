@@ -96,6 +96,21 @@ AimeosBasketMini = {
 
 
 	/**
+	 * Opens the basket offscreen menu for a few seconds after adding a product
+	 */
+	flashOpen() {
+		$('.basket-mini .aimeos-overlay-offscreen').addClass('show');
+		$('.basket-mini .zeynep').addClass('opened');
+
+		clearTimeout(AimeosBasketMini.flashTimer);
+		AimeosBasketMini.flashTimer = setTimeout(() => {
+			$('.basket-mini .aimeos-overlay-offscreen').removeClass('show');
+			$('.basket-mini .zeynep').removeClass('opened');
+		}, 4000);
+	},
+
+
+	/**
 	 * Show basket offscreen menu
 	 */
 	onShowBasket() {

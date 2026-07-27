@@ -16,7 +16,8 @@ AimeosCatalogLists = {
 		}).then(response => {
 			return response.text();
 		}).then(data => {
-			Aimeos.createContainer(AimeosBasket.updateBasket(data));
+			AimeosBasket.updateBasket(data, true);
+			Aimeos.removeOverlay();
 		});
 	},
 

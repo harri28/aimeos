@@ -707,6 +707,28 @@ body > .content, body .main-section {
 		max-width: 120px;
 	}
 
+	.navbar-top {
+		flex-wrap: nowrap;
+		align-items: center;
+	}
+
+	.navbar-brand {
+		order: 0;
+	}
+
+	.navbar-collapse {
+		order: 1;
+		flex-grow: 0;
+	}
+
+	.navbar-top > .locale-select,
+	.navbar-top > .section.catalog-search,
+	.navbar-top > .navbar-nav,
+	.navbar-top > .profile-mini,
+	.navbar-top > .basket-mini {
+		order: 2;
+	}
+
 	.navbar-expand-md .navbar-collapse {
 		display: -ms-flexbox !important;
 		display: flex !important;
@@ -716,6 +738,25 @@ body > .content, body .main-section {
 
 	.navbar-expand-md .navbar-toggler {
 		display: none;
+	}
+}
+
+@media (max-width:991px) {
+	.catalog-filter-tree .zeynep .close::before {
+		content: "\f479" !important;
+	}
+}
+
+@media (max-width:575px) {
+	.aimeos .list .product .list-column,
+	.aimeos .product-list .list-column {
+		width: 100% !important;
+		margin: 0 0 .75rem 0 !important;
+	}
+
+	.aimeos .list .product div.list-column:first-of-type .media-list,
+	.aimeos .product-list div.list-column:first-of-type .media-list {
+		padding-top: calc( 100% / (16/9) ) !important;
 	}
 }
 
@@ -785,6 +826,100 @@ body > .content, body .main-section {
 .navbar-nav .dropdown-menu,
 .navbar-nav .nav-link {
 	color: var(--ai-bg);
+}
+
+/*----------------------------- Profile mini panel --------------------------------*/
+
+.profile-mini .menu {
+	position: relative;
+	white-space: nowrap;
+	text-decoration: none;
+	display: block;
+	cursor: pointer;
+	padding: 0.75rem;
+	line-height: 1;
+}
+
+.profile-mini .menu::before {
+	font: normal normal normal 14px/1 bootstrap-icons;
+	content: "\f4e1";
+	font-size: 165%;
+	color: var(--ai-bg);
+	display: block;
+	text-align: center;
+}
+
+.profile-mini .zeynep {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	right: -20rem;
+	left: unset;
+	width: 20rem;
+	z-index: 1032;
+	pointer-events: none;
+	background-color: var(--ai-bg);
+	-webkit-overflow-scrolling: touch;
+	transition: transform .25s;
+	overflow: hidden auto;
+}
+
+[dir="rtl"] .profile-mini .zeynep {
+	left: -20rem;
+	right: unset;
+}
+
+.profile-mini .zeynep.opened {
+	transform: translateX(-20rem);
+	pointer-events: auto;
+}
+
+[dir="rtl"] .profile-mini .zeynep.opened {
+	transform: translateX(20rem);
+	pointer-events: auto;
+}
+
+.profile-mini .zeynep .header {
+	display: flex;
+	flex-direction: row-reverse;
+	background-color: var(--ai-secondary);
+	color: var(--ai-bg);
+}
+
+.profile-mini .zeynep .header .close,
+.profile-mini .zeynep .header .close:hover,
+.profile-mini .zeynep .header .name {
+	line-height: var(--bs-body-line-height);
+	color: var(--ai-bg);
+	text-align: center;
+	font-size: 125%;
+	cursor: pointer;
+	padding: .5rem;
+}
+
+.profile-mini .zeynep .header .name {
+	cursor: auto;
+}
+
+.profile-mini .zeynep .close::before {
+	font: normal normal normal 14px/1 bootstrap-icons;
+	content: "\f659";
+}
+
+.profile-mini-content {
+	padding: 1.5rem;
+	text-align: center;
+}
+
+.profile-mini-name {
+	font-size: 125%;
+	font-weight: bold;
+	margin-bottom: 1.5rem;
+}
+
+.profile-mini-content .btn-primary {
+	display: block;
+	margin: auto;
 }
 
 .navbar-nav .dropdown-item:focus, .dropdown-item:hover {
@@ -1007,11 +1142,16 @@ body > .content, body .main-section {
 	margin-inline-start: auto;
 }
 
-/* Stock level */
+/* Stock level (hidden, does not apply to rooms/tour packages) */
 
 .aimeos .product .stock-list {
-	display: inline-block;
-	margin: 0 1rem;
+	display: none !important;
+}
+
+/* Center the price since the stock indicator next to it is hidden */
+
+.catalog-list .offer .section {
+	justify-content: center !important;
 }
 
 .aimeos .product .stockitem {

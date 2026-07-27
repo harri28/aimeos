@@ -35,7 +35,7 @@ return [
 		'basket-index' => ['locale/select', 'catalog/tree', 'catalog/search', 'basket/standard', 'basket/bulk', 'basket/related'],
 		'catalog-count' => ['catalog/count'],
 		'catalog-detail' => ['locale/select', 'basket/mini', 'catalog/tree', 'catalog/search', 'catalog/stage', 'catalog/detail', 'catalog/session'],
-		'catalog-home' => ['locale/select', 'basket/mini', 'catalog/tree', 'catalog/search', 'catalog/home'],
+		'catalog-home' => ['locale/select', 'basket/mini', 'catalog/tree', 'catalog/search', 'catalog/home', 'catalog/lists'],
 		'catalog-list' => ['locale/select', 'basket/mini', 'catalog/filter', 'catalog/tree', 'catalog/search', 'catalog/price', 'catalog/supplier', 'catalog/attribute', 'catalog/session', 'catalog/stage', 'catalog/lists'],
 		'catalog-session' => ['locale/select', 'basket/mini', 'catalog/tree', 'catalog/search', 'catalog/session'],
 		'catalog-stock' => ['catalog/stock'],
@@ -149,6 +149,11 @@ return [
 						'length' => 'radio',
 						'width' => 'radio',
 					],
+				],
+			],
+			'locale' => [
+				'select' => [
+					'subparts' => [], // hide language + currency switchers, site is Spanish-only and PEN-only
 				],
 			],
 		],
