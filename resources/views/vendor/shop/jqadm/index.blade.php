@@ -26,6 +26,7 @@
 			.app-menu .icon {cursor: pointer; padding: 0.75rem; height: 2.5rem; width: 2.5rem; margin: 0 0.25rem;}
 			.app-menu button {border: none; color: var(--ai-bg); background-color: transparent; padding: 0}
 			#logout-form {display: inline-block}
+			.ck-editor__editable, .ck-content {background-color: #fff !important; color: #000 !important;}
 		</style>
 	</head>
 	<body class="{{ $theme }}">
