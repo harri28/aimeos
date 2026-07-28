@@ -594,7 +594,10 @@ aside .catalog-filter .section {
 	height: auto;
 }
 
-@media (min-width:992px) {
+@media (min-width:99999px) {
+	/* Desktop megamenu disabled: categories always use the mobile-style
+	   off-canvas hamburger menu (see the block below), so the horizontal
+	   bar doesn't grow unmanageably as more categories are added. */
 
 	.catalog-filter-tree .submenu-header {
 		display: none;
@@ -723,7 +726,9 @@ aside .catalog-filter .section {
 	display: none;
 }
 
-@media (max-width:991px) {
+@media (min-width:0) {
+	/* Always use the mobile-style off-canvas hamburger menu for categories,
+	   on every screen size (see the disabled desktop megamenu block above). */
 
 	.catalog-filter-tree .menu {
 		cursor: pointer;

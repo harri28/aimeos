@@ -751,10 +751,8 @@ body > .content, body .main-section {
 	}
 }
 
-@media (max-width:991px) {
-	.catalog-filter-tree .zeynep .close::before {
-		content: "\f479" !important;
-	}
+.catalog-filter-tree .zeynep .close::before {
+	content: "\f479" !important;
 }
 
 @media (max-width:575px) {
