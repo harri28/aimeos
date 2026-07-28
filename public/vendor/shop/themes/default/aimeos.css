@@ -787,6 +787,17 @@ body > .content, body .main-section {
 	display: none;
 }
 
+/* Categories hamburger row, below navbar-top, aligned under the logo */
+
+.kallpa-subnav {
+	background-color: var(--ai-primary);
+	padding: 0.25rem 0.5rem;
+}
+
+.kallpa-subnav .catalog-filter-tree {
+	margin-inline-start: 0;
+}
+
 .navbar .catalog-filter  .catalog-filter-price,
 .navbar .catalog-filter  .catalog-filter-supplier,
 .navbar .catalog-filter  .catalog-filter-attribute,
