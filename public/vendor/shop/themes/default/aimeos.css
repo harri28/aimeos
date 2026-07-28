@@ -732,7 +732,7 @@ body > .content, body .main-section {
 	}
 
 	.navbar-top > .locale-select,
-	.navbar-top > .section.catalog-search,
+	.navbar-top > .section.catalog-filter,
 	.navbar-top > .navbar-nav,
 	.navbar-top > .profile-mini,
 	.navbar-top > .basket-mini {
@@ -804,6 +804,10 @@ body > .content, body .main-section {
 
 .kallpa-subnav .catalog-filter-tree {
 	margin-inline-start: 0 !important;
+}
+
+.kallpa-subnav .catalog-filter-tree .menu {
+	color: var(--ai-primary) !important;
 }
 
 .navbar .catalog-filter  .catalog-filter-price,
