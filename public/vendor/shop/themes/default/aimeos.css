@@ -794,8 +794,16 @@ body > .content, body .main-section {
 	padding: 0.25rem 0.5rem;
 }
 
+.kallpa-subnav .container-xxl {
+	display: block !important;
+	width: auto !important;
+	max-width: none !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
 .kallpa-subnav .catalog-filter-tree {
-	margin-inline-start: 0;
+	margin-inline-start: 0 !important;
 }
 
 .navbar .catalog-filter  .catalog-filter-price,
