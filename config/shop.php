@@ -12,6 +12,11 @@ return [
 	'multishop' => env( 'SHOP_MULTISHOP', false ), // enable SaaS-like setups
 	'multilocale' => env( 'SHOP_MULTILOCALE', false ), // add locales in URLs
 
+	'csp' => [
+		// Igual al default de Aimeos pero permitiendo el iframe de Google Maps del Inicio.
+		'frontend' => "style-src 'unsafe-inline' 'self'; img-src 'self' data: https://aimeos.org; frame-src https://www.youtube.com https://player.vimeo.com https://www.google.com",
+	],
+
 	'routes' => [
 		// Docs: https://aimeos.org/docs/latest/laravel/extend/#custom-routes
 		// Multi-sites: https://aimeos.org/docs/latest/laravel/customize/#multiple-shops
