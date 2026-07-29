@@ -152,25 +152,39 @@ AimeosCatalogFilter = {
 
 
 	/**
-	 * Show category offscreen menu
+	 * Toggle category offscreen menu (same button opens and closes it)
 	 */
 	onShowCategories() {
 
-		$(".catalog-filter-tree .menu").on('click', () => {
-			$('.catalog-filter-tree .zeynep').addClass('opened');
-			$('.catalog-filter-tree .aimeos-overlay-offscreen').addClass('show');
+		$(".catalog-filter-tree .menu").on('click', ev => {
+			ev.preventDefault();
+			const tree = $(ev.currentTarget).closest('.catalog-filter-tree');
+			const open = tree.find('.zeynep').hasClass('opened');
+
+			tree.find('.zeynep').toggleClass('opened', !open);
+			tree.find('.aimeos-overlay-offscreen').toggleClass('show', !open);
+			tree.toggleClass('tree-open', !open);
 		});
 	},
 
 
 	/**
-	 * Hide category offscreen menu
+	 * Hide category offscreen menu (close button + overlay)
 	 */
 	onHideCategories() {
 
-		$(".catalog-filter-tree .close").on('click', () => {
-			$('.catalog-filter-tree .zeynep').removeClass('opened');
-			$('.catalog-filter-tree .aimeos-overlay-offscreen').removeClass('show');
+		$(".catalog-filter-tree").on('click', '.close', ev => {
+			const tree = $(ev.currentTarget).closest('.catalog-filter-tree');
+			tree.find('.zeynep').removeClass('opened');
+			tree.find('.aimeos-overlay-offscreen').removeClass('show');
+			tree.removeClass('tree-open');
+		});
+
+		$(".catalog-filter-tree .aimeos-overlay-offscreen").on('click', ev => {
+			const tree = $(ev.currentTarget).closest('.catalog-filter-tree');
+			tree.find('.zeynep').removeClass('opened');
+			tree.find('.aimeos-overlay-offscreen').removeClass('show');
+			tree.removeClass('tree-open');
 		});
 	},
 

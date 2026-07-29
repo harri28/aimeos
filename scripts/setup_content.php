@@ -76,22 +76,73 @@ upsertCmsPage($cmsManager, $textManager, 'about', 'Empresa', $aboutHtml);
 upsertCmsPage($cmsManager, $textManager, 'terms', 'Terminos y condiciones', $termsHtml);
 
 /* ----------------------------------------------------------------------
- * 3) Enlaces de redes sociales en la configuracion del sitio
+ * 3) Categoria "Eventos" (para gestionar los eventos del inicio).
+ *    Se crea como hija de la raiz del catalogo. Se oculta del menu de
+ *    navegacion desde la plantilla del arbol (por su codigo "eventos").
+ * -------------------------------------------------------------------- */
+
+$catalogManager = \Aimeos\MShop::create($c, 'catalog');
+
+$eventos = null;
+try { $eventos = $catalogManager->find('eventos'); } catch (\Throwable $e) {}
+
+if (!$eventos) {
+    $rootId = DB::table('mshop_catalog')->where('level', 0)->value('id');
+    $eventos = $catalogManager->create()->setCode('eventos')->setLabel('Eventos')->setStatus(1);
+    $catalogManager->insert($eventos, $rootId);
+    echo 'Categoria "Eventos" CREADA (id '.$eventos->getId().')'.PHP_EOL;
+} else {
+    echo 'Categoria "Eventos" ya existe (id '.$eventos->getId().')'.PHP_EOL;
+}
+
+/* ----------------------------------------------------------------------
+ * 4) Enlaces de redes sociales en la configuracion del sitio
  * -------------------------------------------------------------------- */
 
 $siteManager = \Aimeos\MShop::create($c, 'locale/site');
 $site = $siteManager->get(1);
 $config = $site->getConfig();
 
-$config['social'] = [
-    'facebook'  => 'https://www.facebook.com/profile.php?id=61591652023764',
-    'instagram' => 'https://www.instagram.com/',
-    'twitter'   => '',
-    'youtube'   => '',
-];
+// Valores por defecto SOLO si no existen, para no pisar lo que se edite en el panel.
+
+if (empty($config['social'] ?? null)) {
+    $config['social'] = [
+        'facebook'  => 'https://www.facebook.com/profile.php?id=61591652023764',
+        'instagram' => 'https://www.instagram.com/',
+        'twitter'   => '',
+        'youtube'   => '',
+    ];
+    echo 'Config de redes sociales inicializada.'.PHP_EOL;
+} else {
+    echo 'Config de redes sociales ya existe, se respeta.'.PHP_EOL;
+}
+
+if (empty($config['home']['typing'] ?? null)) {
+    $config['home']['typing'] = [
+        1 => 'Vive la Amazonia peruana en Tarapoto',
+        2 => 'Descuentos especiales en nuestras Suites',
+        3 => 'Conoce la Laguna Azul y las Cataratas de Ahuashiyacu',
+        4 => 'Reserva hoy tu experiencia inolvidable',
+    ];
+    echo 'Frases del inicio inicializadas.'.PHP_EOL;
+} else {
+    echo 'Frases del inicio ya existen, se respetan.'.PHP_EOL;
+}
+
+// Calendario de proximos acontecimientos (formato "fecha | texto").
+if (empty($config['home']['calendar'] ?? null)) {
+    $config['home']['calendar'] = [
+        1 => '24 Jun | Festival de San Juan en Tarapoto',
+        2 => '15 Ago | Feria Turistica de Lamas',
+        3 => '20 Feb | Carnaval Amazonico',
+        4 => '28 Jul | Fiestas Patrias: tours especiales',
+    ];
+    echo 'Calendario del inicio inicializado.'.PHP_EOL;
+} else {
+    echo 'Calendario del inicio ya existe, se respeta.'.PHP_EOL;
+}
 
 $site->setConfig($config);
 $siteManager->save($site);
 
-echo 'Config de redes sociales guardada: '.json_encode($siteManager->get(1)->getConfigValue('social')).PHP_EOL;
 echo 'Listo.'.PHP_EOL;

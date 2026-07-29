@@ -732,6 +732,7 @@ body > .content, body .main-section {
 	}
 
 	.navbar-top > .locale-select,
+	.navbar-top > .navbar-home-link,
 	.navbar-top > .section.catalog-filter,
 	.navbar-top > .navbar-nav,
 	.navbar-top > .profile-mini,
@@ -810,16 +811,38 @@ body > .content, body .main-section {
 	margin-inline-start: 0 !important;
 }
 
+/* Categorias: boton hamburguesa fijo pegado al filo, unido al panel.
+   Al abrir, el panel sale y el boton se desliza a su borde derecho. */
 .kallpa-subnav .catalog-filter-tree .menu {
-	color: var(--ai-primary) !important;
-	position: absolute;
-	top: 5.5rem;
-	left: 0.5rem;
+	position: fixed;
+	top: 10rem;
+	left: 0;
+	z-index: 1033;
+	color: var(--ai-bg) !important;
+	background-color: var(--ai-secondary);
+	padding: 0.5rem 0.75rem;
+	border-radius: 0 0.6rem 0.6rem 0;
+	box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+	transition: left .25s;
 }
 
-/* Start the categories slide-in panel flush against the navbar (no gap) */
+.kallpa-subnav .catalog-filter-tree.tree-open .menu {
+	left: 20rem;
+}
+
+/* Mismo alto que la barra "Categorias": igualar el tamano del icono al del texto del header */
+.kallpa-subnav .catalog-filter-tree .menu::before {
+	font-size: 125% !important;
+}
+
+/* El panel deslizante arranca a la misma altura que el boton */
 .catalog-filter-tree .zeynep {
 	top: 10rem !important;
+}
+
+/* El mismo boton hamburguesa cierra: ocultar el boton de cerrar del panel */
+.catalog-filter-tree .zeynep .header .close {
+	display: none;
 }
 
 /* Make the sidebar's hamburger (close) icon the same size as the open button */
@@ -1390,4 +1413,215 @@ body > .content, body .main-section {
 
 .legal-page li {
 	margin-bottom: 0.4rem;
+}
+
+/*----------------------------- Inicio: portada (hero) --------------------------------*/
+
+/* Layout de dos columnas del inicio: principal + calendario lateral */
+.home-layout {
+	max-width: 1320px;
+	margin: 1.5rem auto;
+	padding: 0 1rem;
+	display: flex;
+	gap: 2rem;
+	align-items: flex-start;
+}
+
+.home-main {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.home-portada {
+	margin: 0 0 1.5rem;
+	line-height: 0;
+}
+
+.home-portada img {
+	width: 100%;
+	height: auto;
+	display: block;
+}
+
+/*----------------------------- Inicio: frases (maquina de escribir) --------------------------------*/
+
+.home-typing {
+	margin: 0 0 2.5rem;
+	padding: 0.5rem 0 1.5rem;
+	text-align: center;
+	min-height: 2.75rem;
+}
+
+.home-typing-text {
+	font-size: 1.6rem;
+	font-weight: bold;
+	letter-spacing: 1px;
+	color: var(--ai-primary, #282828);
+}
+
+.home-typing-text::after {
+	content: "|";
+	margin-left: 3px;
+	font-weight: normal;
+	color: var(--ai-secondary, #505050);
+	animation: homeTypingBlink 1s steps(1) infinite;
+}
+
+@keyframes homeTypingBlink {
+	50% { opacity: 0; }
+}
+
+@media (max-width: 575px) {
+	.home-typing-text {
+		font-size: 1.15rem;
+	}
+}
+
+/*----------------------------- Inicio: eventos de la region --------------------------------*/
+
+.home-events {
+	margin: 0 0 3rem;
+}
+
+.home-events-title {
+	text-align: center;
+	color: var(--ai-primary, #282828);
+	margin-bottom: 1.5rem;
+}
+
+.home-events-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+	gap: 1.5rem;
+}
+
+.event-card {
+	background-color: var(--ai-bg, #fff);
+	border-radius: 1.1rem;
+	overflow: hidden;
+	box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+	transition: transform .25s ease, box-shadow .25s ease;
+	animation: eventFadeUp .5s ease both;
+}
+
+.event-card:hover {
+	transform: translateY(-6px);
+	box-shadow: 0 10px 26px rgba(0, 0, 0, 0.14);
+}
+
+@keyframes eventFadeUp {
+	from { opacity: 0; transform: translateY(20px); }
+	to   { opacity: 1; transform: translateY(0); }
+}
+
+.event-img {
+	aspect-ratio: 16 / 10;
+	overflow: hidden;
+}
+
+.event-img img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform .4s ease;
+}
+
+.event-card:hover .event-img img {
+	transform: scale(1.06);
+}
+
+.event-body {
+	padding: 1.1rem 1.25rem 1.4rem;
+}
+
+.event-title {
+	color: var(--ai-primary, #282828);
+	margin: 0 0 0.5rem;
+	font-size: 115%;
+}
+
+.event-text {
+	color: var(--ai-secondary, #505050);
+	line-height: 1.55;
+	font-size: 95%;
+}
+
+/*----------------------------- Enlace "Inicio" en el navbar --------------------------------*/
+
+.navbar-home-link,
+.navbar-home-link:link,
+.navbar-home-link:visited {
+	color: var(--ai-bg) !important;
+	padding: 0.5rem 1rem;
+	font-size: 100%;
+	letter-spacing: 1.5px;
+	white-space: nowrap;
+	align-self: center;
+}
+
+.navbar-home-link:hover {
+	color: var(--ai-tertiary) !important;
+}
+
+/*----------------------------- Inicio: calendario / proximos acontecimientos --------------------------------*/
+
+.home-calendar {
+	flex: 0 0 300px;
+	width: 300px;
+	position: sticky;
+	top: 1rem;
+	background-color: var(--ai-bg-alt, #f6f6f6);
+	border-radius: 1.1rem;
+	padding: 1.5rem 1.25rem;
+}
+
+.home-calendar-title {
+	color: var(--ai-primary, #282828);
+	font-size: 110%;
+	margin: 0 0 1.25rem;
+	text-align: center;
+}
+
+.home-calendar-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.home-calendar .cal-item {
+	display: flex;
+	flex-direction: column;
+	gap: 0.15rem;
+	padding: 0.75rem 0;
+	border-bottom: 1px solid var(--ai-tertiary, #ccc);
+}
+
+.home-calendar .cal-item:last-child {
+	border-bottom: none;
+}
+
+.home-calendar .cal-date {
+	font-weight: bold;
+	color: var(--ai-primary, #282828);
+	letter-spacing: 1px;
+	font-size: 95%;
+}
+
+.home-calendar .cal-text {
+	color: var(--ai-secondary, #505050);
+	line-height: 1.4;
+	font-size: 92%;
+}
+
+/* En pantallas medianas/moviles: una sola columna, el calendario va abajo */
+@media (max-width: 900px) {
+	.home-layout {
+		flex-direction: column;
+	}
+
+	.home-calendar {
+		flex-basis: auto;
+		width: 100%;
+		position: static;
+	}
 }

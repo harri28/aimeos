@@ -44,6 +44,9 @@
 			</button>
 
 			@yield('aimeos_head_locale')
+
+			<a class="navbar-home-link" href="/" title="Inicio">Inicio</a>
+
 			@yield('aimeos_head_search')
 
 			<ul class="navbar-nav">
