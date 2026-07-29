@@ -43,43 +43,45 @@
 				<span class="navbar-toggler-icon"></span>
 			</button>
 
-			@yield('aimeos_head_locale')
+			<div class="navbar-content">
+				@yield('aimeos_head_locale')
 
-			<a class="navbar-home-link" href="/" title="Inicio">Inicio</a>
+				<a class="navbar-home-link" href="/" title="Inicio">Inicio</a>
 
-			@yield('aimeos_head_search')
+				@yield('aimeos_head_search')
 
-			<ul class="navbar-nav">
-				@if (Auth::guest() && config('app.shop_registration'))
-					<li class="nav-item register"><a class="nav-link" href="{{ airoute( 'register' ) }}" title="{{ __( 'Register' ) }}"><span class="name">{{ __('Register') }}</span></a></li>
-				@endif
-				@if (Auth::guest())
-					<li class="nav-item login"><a class="nav-link" href="{{ airoute( 'login' ) }}" title="{{ __( 'Login' ) }}"><span class="name">{{ __( 'Login' ) }}</span></a></li>
-				@endif
-			</ul>
+				<ul class="navbar-nav">
+					@if (Auth::guest() && config('app.shop_registration'))
+						<li class="nav-item register"><a class="nav-link" href="{{ airoute( 'register' ) }}" title="{{ __( 'Register' ) }}"><span class="name">{{ __('Register') }}</span></a></li>
+					@endif
+					@if (Auth::guest())
+						<li class="nav-item login"><a class="nav-link" href="{{ airoute( 'login' ) }}" title="{{ __( 'Login' ) }}"><span class="name">{{ __( 'Login' ) }}</span></a></li>
+					@endif
+				</ul>
 
-			@auth
-				<div class="section aimeos profile-mini">
-					<div class="aimeos-overlay-offscreen"></div>
+				@auth
+					<div class="section aimeos profile-mini">
+						<div class="aimeos-overlay-offscreen"></div>
 
-					<a class="profile-mini-main menu" href="#" title="{{ __( 'Account' ) }}"></a>
+						<a class="profile-mini-main menu" href="#" title="{{ __( 'Account' ) }}"></a>
 
-					<div class="profile-mini-panel zeynep">
-						<div class="header row">
-							<div class="col-2"></div>
-							<div class="col-8 name">{{ __( 'Account' ) }}</div>
-							<a class="col-2 close" href="#" title="{{ __( 'Close' ) }}"></a>
-						</div>
+						<div class="profile-mini-panel zeynep">
+							<div class="header row">
+								<div class="col-2"></div>
+								<div class="col-8 name">{{ __( 'Account' ) }}</div>
+								<a class="col-2 close" href="#" title="{{ __( 'Close' ) }}"></a>
+							</div>
 
-						<div class="profile-mini-content">
-							<div class="profile-mini-name">{{ Auth::user()->name }}</div>
-							<a class="btn btn-primary" href="{{ airoute( 'aimeos_shop_account' ) }}">{{ __( 'Profile' ) }}</a>
+							<div class="profile-mini-content">
+								<div class="profile-mini-name">{{ Auth::user()->name }}</div>
+								<a class="btn btn-primary" href="{{ airoute( 'aimeos_shop_account' ) }}">{{ __( 'Profile' ) }}</a>
+							</div>
 						</div>
 					</div>
-				</div>
-			@endauth
+				@endauth
 
-			@yield('aimeos_head_basket')
+				@yield('aimeos_head_basket')
+			</div>
 		</nav>
 
 		<div class="kallpa-subnav">

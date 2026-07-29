@@ -422,18 +422,9 @@ aside .catalog-filter .section {
 }
 
 .navbar .catalog-filter-search .input-group input {
-	width: 0;
-	padding: 0;
-	min-width: 0;
-	transition: width .3s;
-}
-
-.navbar .catalog-filter-search .input-group:hover input,
-.navbar .catalog-filter-search .input-group input:focus {
+	width: 20rem;
 	padding: .375rem .75rem;
-	min-width: available;
-	transition: width .3s;
-	width: 10rem;
+	min-width: 0;
 }
 
 .navbar .catalog-filter-search .input-group .btn {
@@ -445,9 +436,8 @@ aside .catalog-filter .section {
 }
 
 @media (min-width:768px) {
-	.navbar .catalog-filter-search .input-group:hover input,
-	.navbar .catalog-filter-search .input-group input:focus {
-		width: 15rem;
+	.navbar .catalog-filter-search .input-group input {
+		width: 30rem;
 	}
 }
 

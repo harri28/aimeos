@@ -700,6 +700,18 @@ body > .content, body .main-section {
 	border: none;
 }
 
+/* Wrapper for everything to the right of the logo/toggler (locale, home
+   link, search, nav, profile, basket) - lets the search bar be centered
+   relative to this zone instead of the whole navbar (which would be
+   thrown off-center by the logo's width). */
+.navbar-content {
+	display: flex;
+	align-items: center;
+	flex: 1 1 auto;
+	min-width: 0;
+	position: relative;
+}
+
 @media (max-width:767px) {
 	.navbar-brand img {
 		width: auto;
@@ -713,7 +725,7 @@ body > .content, body .main-section {
 		justify-content: flex-start;
 	}
 
-	.navbar-top > .locale-select {
+	.navbar-content > .locale-select {
 		margin-inline-start: auto;
 	}
 
@@ -731,12 +743,12 @@ body > .content, body .main-section {
 		padding-right: 0 !important;
 	}
 
-	.navbar-top > .locale-select,
-	.navbar-top > .navbar-home-link,
-	.navbar-top > .section.catalog-filter,
-	.navbar-top > .navbar-nav,
-	.navbar-top > .profile-mini,
-	.navbar-top > .basket-mini {
+	.navbar-content > .locale-select,
+	.navbar-content > .navbar-home-link,
+	.navbar-content > .section.catalog-filter,
+	.navbar-content > .navbar-nav,
+	.navbar-content > .profile-mini,
+	.navbar-content > .basket-mini {
 		order: 2;
 	}
 
@@ -778,8 +790,31 @@ body > .content, body .main-section {
 /* Push the search/account/basket group to the right on tablet + desktop.
    (On mobile this is handled inside the max-width:767px block above.) */
 @media (min-width:768px) {
-	.navbar-top > .locale-select {
+	.navbar-content > .locale-select {
 		margin-inline-start: auto;
+	}
+
+	/* Search button centered in the "content" zone to the right of the logo
+	   (taken out of the flex flow so it doesn't affect the locale/home/basket
+	   group pushed to the right). Positioned relative to .navbar-content, not
+	   the whole navbar, so the logo's width doesn't throw off the centering. */
+	.navbar-content > .section.catalog-filter {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		margin: 0;
+	}
+
+	/* Bootstrap's .container-xxl forces width:100%, which made the box we
+	   just centered stretch across the whole navbar (so its content stayed
+	   pinned to the left instead of appearing centered). Let it shrink to
+	   the actual search form content instead. */
+	.navbar-content > .section.catalog-filter > .container-xxl {
+		width: auto;
+		max-width: none;
+		padding-left: 0;
+		padding-right: 0;
 	}
 }
 
