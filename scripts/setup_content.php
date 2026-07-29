@@ -222,6 +222,19 @@ if (empty($config['home']['calendar'] ?? null)) {
     echo 'Calendario del inicio ya existe, se respeta.'.PHP_EOL;
 }
 
+// Paquete turistico promocionado junto a los eventos del inicio.
+if (empty($config['home']['promo'] ?? null)) {
+    $config['home']['promo'] = [
+        'product'  => 'paquete-aventura-amazonica',
+        'discount' => 10,
+        'badge'    => 'Oferta -10%',
+        'hook'     => '¿Vienes a nuestros eventos? Quédate con nosotros y aprovecha esta oferta.',
+    ];
+    echo 'Paquete promocionado del inicio inicializado.'.PHP_EOL;
+} else {
+    echo 'Paquete promocionado del inicio ya existe, se respeta.'.PHP_EOL;
+}
+
 $site->setConfig($config);
 $siteManager->save($site);
 

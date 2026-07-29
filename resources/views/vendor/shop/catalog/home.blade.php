@@ -61,6 +61,35 @@
 			'text' => trim( $parts[1] ?? '' ),
 		];
 	}
+
+	// Paquete turistico promocionado, mostrado junto a los eventos.
+	$homePromo = null;
+	$promoCfg = (array) $aimeosSite->getConfigValue( 'home/promo', [] );
+
+	if( !empty( $promoCfg['product'] ) ) {
+		try {
+			$promoProduct = \Aimeos\MShop::create( $aimeosCtx, 'product' )->find( $promoCfg['product'], ['text', 'media', 'price'] );
+			$priceItem = $promoProduct->getRefItems( 'price', 'default', 'default' )->first();
+			$discount = max( 0, min( 90, (int) ( $promoCfg['discount'] ?? 0 ) ) );
+			$price = $priceItem ? (float) $priceItem->getValue() : null;
+			$offerPrice = ( $price !== null && $discount > 0 ) ? round( $price * ( 1 - $discount / 100 ), 2 ) : null;
+
+			$homePromo = [
+				'item' => $promoProduct,
+				'img' => $promoProduct->getRefItems( 'media', 'default', 'default' )->first(),
+				'badge' => $promoCfg['badge'] ?? null,
+				'hook' => $promoCfg['hook'] ?? null,
+				'price' => $price,
+				'offerPrice' => $offerPrice,
+				'url' => route( 'aimeos_shop_detail', ['d_name' => $promoProduct->getUrl(), 'd_prodid' => $promoProduct->getId()] ),
+			];
+
+			$waMsg = 'Hola, quiero reservar el paquete "'.$promoProduct->getLabel().'"'.( $offerPrice ? ' con la oferta' : '' ).'.';
+			$homePromo['whatsapp'] = 'https://wa.me/51910964688?text='.rawurlencode( $waMsg );
+		} catch( \Throwable $e ) {
+			$homePromo = null;
+		}
+	}
 @endphp
 
 @section('aimeos_body')
@@ -100,6 +129,39 @@
 								</div>
 							</article>
 						@endforeach
+
+						@if( $homePromo )
+							<article class="event-card promo-card">
+								@if( $homePromo['badge'] )
+									<span class="promo-badge">{{ $homePromo['badge'] }}</span>
+								@endif
+								@if( $homePromo['img'] )
+									<div class="event-img">
+										<img loading="lazy" src="{{ asset( $mediaBase . '/' . $homePromo['img']->getPreview() ) }}" alt="{{ $homePromo['item']->getLabel() }}">
+									</div>
+								@endif
+								<div class="event-body">
+									<h3 class="event-title">{{ $homePromo['item']->getLabel() }}</h3>
+									@if( $homePromo['hook'] )
+										<div class="promo-hook">{{ $homePromo['hook'] }}</div>
+									@endif
+									@if( $homePromo['price'] !== null )
+										<div class="promo-price">
+											@if( $homePromo['offerPrice'] )
+												<span class="promo-price-old">S/ {{ number_format( $homePromo['price'], 2 ) }}</span>
+												<span class="promo-price-new">S/ {{ number_format( $homePromo['offerPrice'], 2 ) }}</span>
+											@else
+												<span class="promo-price-new">S/ {{ number_format( $homePromo['price'], 2 ) }}</span>
+											@endif
+										</div>
+									@endif
+									<div class="promo-cta">
+										<a class="promo-btn promo-btn-wa" href="{{ $homePromo['whatsapp'] }}" target="_blank" rel="noopener">Reservar por WhatsApp</a>
+										<a class="promo-btn promo-btn-outline" href="{{ $homePromo['url'] }}">Ver paquete</a>
+									</div>
+								</div>
+							</article>
+						@endif
 					</div>
 				</section>
 			@endif
@@ -120,6 +182,21 @@
 			</aside>
 		@endif
 	</div>
+
+	<section class="home-map-wrap">
+		<h2 class="home-map-title">&iquest;C&oacute;mo llegar?</h2>
+		<div class="home-map">
+			<iframe
+				src="https://www.google.com/maps?q=Av.+Oasis+S%2FN%2C+Morales%2C+San+Mart%C3%ADn%2C+Peru&output=embed"
+				loading="lazy"
+				referrerpolicy="no-referrer-when-downgrade"
+				allowfullscreen></iframe>
+		</div>
+		<p class="home-map-address">
+			Av. Oasis S/N, Morales, San Mart&iacute;n
+			<a href="https://www.google.com/maps/search/?api=1&query=Av.+Oasis+S%2FN%2C+Morales%2C+San+Mart%C3%ADn%2C+Peru" target="_blank" rel="noopener">Ver en Google Maps</a>
+		</p>
+	</section>
 @stop
 
 @section('aimeos_scripts')

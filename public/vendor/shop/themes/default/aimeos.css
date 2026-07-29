@@ -1546,6 +1546,92 @@ body > .content, body .main-section {
 	font-size: 95%;
 }
 
+/*----------------------------- Inicio: tarjeta de paquete promocionado --------------------------------*/
+
+.promo-card {
+	background-color: var(--ai-primary, #282828);
+	color: #fff;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+}
+
+.promo-card .event-title {
+	color: #fff;
+}
+
+.promo-badge {
+	position: absolute;
+	top: 0.9rem;
+	left: 0.9rem;
+	background-color: var(--ai-danger, #a00000);
+	color: #fff;
+	font-size: 80%;
+	font-weight: bold;
+	letter-spacing: 0.5px;
+	padding: 0.3rem 0.75rem;
+	border-radius: 2rem;
+	z-index: 1;
+}
+
+.promo-hook {
+	font-size: 92%;
+	line-height: 1.5;
+	opacity: 0.9;
+	margin: 0 0 1rem;
+}
+
+.promo-price {
+	display: flex;
+	align-items: baseline;
+	gap: 0.6rem;
+	margin: 0 0 1.1rem;
+}
+
+.promo-price-old {
+	text-decoration: line-through;
+	opacity: 0.6;
+	font-size: 90%;
+}
+
+.promo-price-new {
+	font-size: 130%;
+	font-weight: bold;
+}
+
+.promo-cta {
+	display: flex;
+	flex-direction: column;
+	gap: 0.6rem;
+	margin-top: auto;
+}
+
+.promo-btn {
+	display: block;
+	text-align: center;
+	padding: 0.6rem 1rem;
+	border-radius: 0.6rem;
+	font-weight: bold;
+	font-size: 92%;
+	text-decoration: none;
+	transition: opacity .2s ease;
+}
+
+.promo-btn:hover {
+	opacity: 0.85;
+}
+
+.promo-btn-wa {
+	background-color: #25D366;
+	color: #fff;
+}
+
+.promo-btn-outline {
+	background-color: transparent;
+	color: #fff;
+	border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
 /*----------------------------- Enlace "Inicio" en el navbar --------------------------------*/
 
 .navbar-home-link,
@@ -1623,5 +1709,56 @@ body > .content, body .main-section {
 		flex-basis: auto;
 		width: 100%;
 		position: static;
+	}
+}
+
+/*----------------------------- Inicio: como llegar (mapa) --------------------------------*/
+
+.home-map-wrap {
+	max-width: 1320px;
+	margin: 0 auto 3rem;
+	padding: 0 1rem;
+}
+
+.home-map-title {
+	text-align: center;
+	color: var(--ai-primary, #282828);
+	margin-bottom: 1.5rem;
+}
+
+.home-map {
+	border-radius: 1.1rem;
+	overflow: hidden;
+	box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+}
+
+.home-map iframe {
+	display: block;
+	width: 100%;
+	height: 420px;
+	border: 0;
+}
+
+.home-map-address {
+	text-align: center;
+	color: var(--ai-secondary, #505050);
+	margin: 1rem 0 0;
+}
+
+.home-map-address a {
+	margin-left: 0.75rem;
+	color: var(--ai-primary, #282828);
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+@media (max-width: 575px) {
+	.home-map iframe {
+		height: 280px;
+	}
+
+	.home-map-address a {
+		display: block;
+		margin: 0.5rem 0 0;
 	}
 }
