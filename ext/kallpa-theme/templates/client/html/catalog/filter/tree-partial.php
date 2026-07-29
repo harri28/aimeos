@@ -31,7 +31,7 @@ $filter = array_flip( $this->config( 'client/html/catalog/tree/url/filter', [] )
 	<?php endif ?>
 
 	<?php foreach( $this->get( 'nodes', [] ) as $item ) : ?>
-		<?php if( $item->getStatus() > 0 ) : ?>
+		<?php if( $item->getStatus() > 0 && $item->getCode() !== 'eventos' ) : ?>
 			<?php $name = $item->getName( 'url' ) ?>
 			<?php $params = array_diff_key( array_merge( $this->get( 'params', [] ), ['path' => $name, 'f_name' => $name, 'f_catid' => $item->getId()] ), $filter ) ?>
 			<?php $url = $this->url( $item->getTarget() ?: $target, $controller, $action, $params, [], $config ) ?>
