@@ -125,15 +125,20 @@ function upsertEventProduct($productManager, $textManager, $mediaManager, $catal
         echo 'Producto evento "'.$data['label'].'" ya existe (id '.$product->getId().')'.PHP_EOL;
     }
 
-    $catalogItem = $catalogManager->get($catalogId, ['product']);
+    // El indice de busqueda (usado por Controller\Frontend\Product->category())
+    // lee mshop_product_list (domain=catalog), del lado del PRODUCTO, no del
+    // lado de la categoria. Hay que vincular desde aqui para que el evento
+    // aparezca en el listado del inicio.
+    $product = $productManager->get($product->getId(), ['catalog']);
     $linked = false;
-    foreach ($catalogItem->getListItems('product') as $li) {
-        if ((string) $li->getRefId() === (string) $product->getId()) { $linked = true; break; }
+    foreach ($product->getListItems('catalog') as $li) {
+        if ((string) $li->getRefId() === (string) $catalogId) { $linked = true; break; }
     }
     if (!$linked) {
-        $listItem = $catalogManager->createListItem()->setType('default')->setDomain('product')->setRefId((string) $product->getId())->setStatus(1);
-        $catalogItem->addListItem('product', $listItem, $product);
-        $catalogManager->save($catalogItem);
+        $catalogItem = $catalogManager->get($catalogId);
+        $listItem = $productManager->createListItem()->setType('default')->setDomain('catalog')->setRefId((string) $catalogId)->setStatus(1);
+        $product->addListItem('catalog', $listItem, $catalogItem);
+        $productManager->save($product);
         echo 'Producto "'.$data['label'].'" vinculado a categoria Eventos.'.PHP_EOL;
     }
 }
