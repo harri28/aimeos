@@ -45,7 +45,7 @@ return [
 		'checkout-index' => ['locale/select', 'catalog/tree', 'catalog/search', 'checkout/standard'],
 		'checkout-update' => ['checkout/update'],
 		'supplier-detail' => ['locale/select', 'basket/mini', 'catalog/tree', 'catalog/search', 'supplier/detail', 'catalog/lists'],
-		'cms' => ['cms/page', 'catalog/tree', 'basket/mini'],
+		'cms' => ['cms/page', 'locale/select', 'basket/mini', 'catalog/tree', 'catalog/search'],
 	],
 
 	'resource' => [
