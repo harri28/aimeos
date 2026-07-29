@@ -3,7 +3,8 @@
 /**
  * Crea/actualiza contenido de Kallpa Room que vive en la base de datos
  * (no viaja con git): las paginas CMS "Empresa" (/p/about) y "Terminos y
- * condiciones" (/p/terms), y los enlaces de redes sociales del sitio.
+ * condiciones" (/p/terms), la categoria y los productos de "Eventos" de
+ * ejemplo, y los enlaces de redes sociales del sitio.
  *
  * Uso (dentro del contenedor / entorno con Laravel):
  *   php scripts/setup_content.php
@@ -94,6 +95,80 @@ if (!$eventos) {
 } else {
     echo 'Categoria "Eventos" ya existe (id '.$eventos->getId().')'.PHP_EOL;
 }
+
+/* ----------------------------------------------------------------------
+ * 3b) Eventos de ejemplo (productos dentro de la categoria "Eventos").
+ *     Las imagenes ya viajan con git (public/aimeos/1.d/product/...).
+ * -------------------------------------------------------------------- */
+
+$productManager = \Aimeos\MShop::create($c, 'product');
+$mediaManager = \Aimeos\MShop::create($c, 'media');
+
+function upsertEventProduct($productManager, $textManager, $mediaManager, $catalogManager, $catalogId, array $data): void
+{
+    $product = null;
+    try { $product = $productManager->find($data['code']); } catch (\Throwable $e) {}
+
+    if (!$product) {
+        $product = $productManager->create()->setType('default')->setCode($data['code'])->setLabel($data['label'])->setUrl($data['url'])->setStatus(1);
+
+        $textItem = $textManager->create()->setType('short')->setDomain('product')->setLabel($data['label'].': texto')->setStatus(1)->setContent($data['text']);
+        $product->addListItem('text', $productManager->createListItem()->setType('default'), $textItem);
+
+        $mediaItem = $mediaManager->create()->setType('default')->setDomain('product')->setFileSystem('fs-media')
+            ->setLabel($data['mediaLabel'])->setUrl($data['mediaLink'])->setPreviews($data['mediaPreviews'])->setMimeType($data['mimetype'])->setStatus(1);
+        $product->addListItem('media', $productManager->createListItem()->setType('default'), $mediaItem);
+
+        $productManager->save($product);
+        echo 'Producto evento "'.$data['label'].'" CREADO (id '.$product->getId().')'.PHP_EOL;
+    } else {
+        echo 'Producto evento "'.$data['label'].'" ya existe (id '.$product->getId().')'.PHP_EOL;
+    }
+
+    $catalogItem = $catalogManager->get($catalogId, ['product']);
+    $linked = false;
+    foreach ($catalogItem->getListItems('product') as $li) {
+        if ((string) $li->getRefId() === (string) $product->getId()) { $linked = true; break; }
+    }
+    if (!$linked) {
+        $listItem = $catalogManager->createListItem()->setType('default')->setDomain('product')->setRefId((string) $product->getId())->setStatus(1);
+        $catalogItem->addListItem('product', $listItem, $product);
+        $catalogManager->save($catalogItem);
+        echo 'Producto "'.$data['label'].'" vinculado a categoria Eventos.'.PHP_EOL;
+    }
+}
+
+upsertEventProduct($productManager, $textManager, $mediaManager, $catalogManager, $eventos->getId(), [
+    'code' => 'evento-san-juan',
+    'label' => 'Festival de San Juan',
+    'url' => 'festival-de-san-juan',
+    'text' => '24 de junio &mdash; Vive la fiesta m&aacute;s grande de la Amazon&iacute;a en Tarapoto: danzas, gastronom&iacute;a t&iacute;pica y tradici&oacute;n junto al r&iacute;o.',
+    'mediaLabel' => 'Tarapoto.jpg',
+    'mediaLink' => '1.d/product/0/e/0ef4569c_tarapoto.jpg',
+    'mediaPreviews' => [
+        '240' => '1.d/product/3/6/36513769_0ef4569c_tarapoto.webp',
+        '480' => '1.d/product/6/9/69c67dd3_0ef4569c_tarapoto.webp',
+        '960' => '1.d/product/5/4/54a2810f_0ef4569c_tarapoto.webp',
+        '1920' => '1.d/product/b/d/bd2d62e9_0ef4569c_tarapoto.webp',
+    ],
+    'mimetype' => 'image/jpeg',
+]);
+
+upsertEventProduct($productManager, $textManager, $mediaManager, $catalogManager, $eventos->getId(), [
+    'code' => 'evento-lamas',
+    'label' => 'Feria Turística de Lamas',
+    'url' => 'feria-turistica-de-lamas',
+    'text' => '15 de agosto &mdash; Conoce la cultura viva del pueblo Kechwa-Lamas: artesan&iacute;a, m&uacute;sica y el famoso Castillo de Lamas.',
+    'mediaLabel' => 'Lamas.jpg',
+    'mediaLink' => '1.d/product/8/f/8fbda936_lamas.jpg',
+    'mediaPreviews' => [
+        '240' => '1.d/product/c/5/c50b517a_8fbda936_lamas.webp',
+        '480' => '1.d/product/6/d/6d541500_8fbda936_lamas.webp',
+        '960' => '1.d/product/1/4/148f79fb_8fbda936_lamas.webp',
+        '1920' => '1.d/product/d/5/d5fbcad7_8fbda936_lamas.webp',
+    ],
+    'mimetype' => 'image/jpeg',
+]);
 
 /* ----------------------------------------------------------------------
  * 4) Enlaces de redes sociales en la configuracion del sitio
