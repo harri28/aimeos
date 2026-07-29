@@ -772,26 +772,30 @@ body > .content, body .main-section {
 	.navbar {
 		min-height: 10rem;
 	}
-
-	.navbar .catalog-filter:first-child {
-		margin-inline-start: auto;
-		margin-inline-end: 0;
-	}
 }
 
-.navbar .catalog-filter-tree {
-	margin-inline-start: auto;
+/* Push the search/account/basket group to the right on tablet + desktop.
+   (On mobile this is handled inside the max-width:767px block above.) */
+@media (min-width:768px) {
+	.navbar-top > .locale-select {
+		margin-inline-start: auto;
+	}
 }
 
 .navbar .catalog-filter-tree .category-selected {
 	display: none;
 }
 
-/* Categories hamburger row, below navbar-top, aligned under the logo */
+/* Categories hamburger: floats on the left over the content, at the height
+   of the "Ordenar por" (sort) row. The wrapper takes no vertical space and
+   has no background so it never splits the navbar visually. */
 
 .kallpa-subnav {
-	background-color: var(--ai-primary);
-	padding: 0.25rem 0.5rem;
+	position: relative;
+	height: 0;
+	z-index: 5;
+	background-color: transparent;
+	padding: 0;
 }
 
 .kallpa-subnav .container-xxl {
@@ -808,6 +812,19 @@ body > .content, body .main-section {
 
 .kallpa-subnav .catalog-filter-tree .menu {
 	color: var(--ai-primary) !important;
+	position: absolute;
+	top: 5.5rem;
+	left: 0.5rem;
+}
+
+/* Start the categories slide-in panel flush against the navbar (no gap) */
+.catalog-filter-tree .zeynep {
+	top: 10rem !important;
+}
+
+/* Make the sidebar's hamburger (close) icon the same size as the open button */
+.catalog-filter-tree .zeynep .close::before {
+	font-size: 175% !important;
 }
 
 .navbar .catalog-filter  .catalog-filter-price,
@@ -1242,4 +1259,95 @@ body > .content, body .main-section {
 
 .aimeos .product .addbasket button {
 	margin: 0;
+}
+
+/*----------------------------- Pagina Empresa (CMS about) --------------------------------*/
+
+.about-page {
+	padding: 2rem 0;
+	color: var(--ai-secondary, #505050);
+}
+
+.about-page p {
+	line-height: 1.7;
+	margin-bottom: 1rem;
+}
+
+.about-title,
+.about-subtitle {
+	color: var(--ai-primary, #282828);
+}
+
+.about-subtitle {
+	margin-top: 2.5rem;
+	margin-bottom: 1rem;
+}
+
+.about-mv {
+	margin-top: 2rem;
+}
+
+.about-mv > [class^="col-"] {
+	margin-bottom: 1rem;
+}
+
+.about-card {
+	background-color: var(--ai-bg-alt, #f6f6f6);
+	border-radius: 1.25rem;
+	padding: 2rem;
+	height: 100%;
+}
+
+.about-card h2 {
+	color: var(--ai-primary, #282828);
+	margin-bottom: 1rem;
+}
+
+.about-values .value-item {
+	background-color: var(--ai-bg-alt, #f6f6f6);
+	border-radius: 0.9rem;
+	padding: 1rem 1.5rem;
+	margin-bottom: 0.75rem;
+}
+
+.about-values .value-name {
+	font-weight: bold;
+	color: var(--ai-primary, #282828);
+}
+
+.about-contact {
+	background-color: var(--ai-primary, #282828);
+	color: var(--ai-bg, #fff);
+	border-radius: 1.25rem;
+	padding: 2.5rem;
+	margin-top: 2.5rem;
+	text-align: center;
+}
+
+.about-contact h2 {
+	color: var(--ai-bg, #fff);
+	margin-bottom: 1rem;
+}
+
+.about-contact p {
+	margin-bottom: 0.5rem;
+}
+
+.about-contact .about-wa {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	margin-top: 0.75rem;
+	color: #25D366 !important;
+	font-weight: bold;
+}
+
+.about-contact .about-wa:hover {
+	color: #1da851 !important;
+}
+
+.about-contact .about-wa svg {
+	width: 1.15rem;
+	height: 1.15rem;
+	fill: currentColor;
 }

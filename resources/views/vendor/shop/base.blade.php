@@ -108,7 +108,7 @@
 							<div class="col-sm-6 footer-center">
 								<div class="footer-block">
 									<h2 class="pb-3" aria-label="{{ __('About the company') }}">{{ __( 'ABOUT US' ) }}</h2>
-									<p><a href="{{ airoute(config('shop.client.html.cms.page.url.target', 'aimeos_page'), ['path' => 'contact']) }}">{{ __( 'Contact us' ) }}</a></p>
+									<p><a href="{{ airoute(config('shop.client.html.cms.page.url.target', 'aimeos_page'), ['path' => 'about']) }}#contacto">{{ __( 'Contact us' ) }}</a></p>
 									<p><a href="{{ airoute(config('shop.client.html.cms.page.url.target', 'aimeos_page'), ['path' => 'about']) }}">{{ __( 'Company' ) }}</a></p>
 								</div>
 							</div>
@@ -119,11 +119,21 @@
 							<a class="logo" href="/" title="{{ __('To the home page') }}">
 								<img src="{{ asset( app( 'aimeos.context' )->get()->config()->get( 'resource/fs-media/baseurl' ) . '/' . ( app( 'aimeos.context' )->get()->locale()->getSiteItem()->getLogo() ?: '../vendor/shop/themes/default/assets/logo.png' ) ) }}" height="40" alt="{{ __('To the home page') }}">
 							</a>
+							@php
+								$aimeosSite = app( 'aimeos.context' )->get()->locale()->getSiteItem();
+								$socialLinks = [
+									'facebook'  => ['url' => $aimeosSite->getConfigValue('social/facebook'),  'label' => 'Facebook'],
+									'instagram' => ['url' => $aimeosSite->getConfigValue('social/instagram'), 'label' => 'Instagram'],
+									'twitter'   => ['url' => $aimeosSite->getConfigValue('social/twitter'),   'label' => 'Twitter'],
+									'youtube'   => ['url' => $aimeosSite->getConfigValue('social/youtube'),   'label' => 'Youtube'],
+								];
+							@endphp
 							<div class="social" aria-label="{{ __('Social media links') }}">
-								<p><a href="#" class="sm facebook" title="Facebook" rel="noopener">Facebook</a></p>
-								<p><a href="#" class="sm twitter" title="Twitter" rel="noopener">Twitter</a></p>
-								<p><a href="#" class="sm instagram" title="Instagram" rel="noopener">Instagram</a></p>
-								<p><a href="#" class="sm youtube" title="Youtube" rel="noopener">Youtube</a></p>
+								@foreach( $socialLinks as $network => $data )
+									@if( !empty($data['url']) )
+										<p><a href="{{ $data['url'] }}" class="sm {{ $network }}" title="{{ $data['label'] }}" target="_blank" rel="noopener">{{ $data['label'] }}</a></p>
+									@endif
+								@endforeach
 							</div>
 						</div>
 					</div>
