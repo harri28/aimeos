@@ -102,7 +102,7 @@ class KallparoomCustomersSeeder extends Seeder
 
         $removed = DB::table('mshop_customer')
             ->where('siteid', self::SITE_ID)
-            ->where('editor', 'import-clientes-xlsx')
+            ->where('editor', 'kallparoom-customer-seeder')
             ->delete();
 
         $this->command?->info("Processed {$processed} customers; removed {$removed} rows from the unused Aimeos customer table.");
