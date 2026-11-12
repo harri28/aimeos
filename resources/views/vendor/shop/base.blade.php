@@ -46,9 +46,9 @@
 			<div class="navbar-content">
 				@yield('aimeos_head_nav')
 
-				@yield('aimeos_head_locale')
-
 				@yield('aimeos_head_search')
+
+				@yield('aimeos_head_locale')
 
 				<ul class="navbar-nav">
 					@if (Auth::guest() && config('app.shop_registration'))

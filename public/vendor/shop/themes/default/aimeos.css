@@ -786,34 +786,27 @@ body > .content, body .main-section {
 	}
 }
 
-/* Push the search/account/basket group to the right on tablet + desktop.
-   (On mobile this is handled inside the max-width:767px block above.) */
+/* Desktop/tablet layout del navbar-content:
+   [menu categorias] [search (flex-grow)] [locale/login/basket (pegados derecha)]
+   El search fluye en el flex (ya no es absolute) para no pisar a los demas.
+   El locale lleva margin-start:auto para empujar el grupo derecho al borde. */
 @media (min-width:768px) {
-	.navbar-content > .locale-select {
-		margin-inline-start: auto;
-	}
-
-	/* Search button centered in the "content" zone to the right of the logo
-	   (taken out of the flex flow so it doesn't affect the locale/home/basket
-	   group pushed to the right). Positioned relative to .navbar-content, not
-	   the whole navbar, so the logo's width doesn't throw off the centering. */
 	.navbar-content > .section.catalog-filter {
-		position: absolute;
-		left: 50%;
-		top: 50%;
-		transform: translate(-50%, -50%);
-		margin: 0;
+		flex: 1 1 auto;
+		max-width: 32rem;
+		min-width: 0;
+		margin: 0 1.25rem;
 	}
 
-	/* Bootstrap's .container-xxl forces width:100%, which made the box we
-	   just centered stretch across the whole navbar (so its content stayed
-	   pinned to the left instead of appearing centered). Let it shrink to
-	   the actual search form content instead. */
 	.navbar-content > .section.catalog-filter > .container-xxl {
-		width: auto;
+		width: 100%;
 		max-width: none;
 		padding-left: 0;
 		padding-right: 0;
+	}
+
+	.navbar-content > .locale-select {
+		margin-inline-start: auto;
 	}
 }
 
