@@ -744,7 +744,6 @@ body > .content, body .main-section {
 	}
 
 	.navbar-content > .locale-select,
-	.navbar-content > .navbar-home-link,
 	.navbar-content > .section.catalog-filter,
 	.navbar-content > .navbar-nav,
 	.navbar-content > .profile-mini,
@@ -822,67 +821,140 @@ body > .content, body .main-section {
 	display: none;
 }
 
-/* Categories hamburger: floats on the left over the content, at the height
-   of the "Ordenar por" (sort) row. The wrapper takes no vertical space and
-   has no background so it never splits the navbar visually. */
+/* ============================================================
+   Categorías: menú horizontal dentro del navbar (no sidebar).
+   Las clases .cat-item / .submenu vienen del tree-partial.php
+   de la extensión kallpa-theme.
+   ============================================================ */
 
-.kallpa-subnav {
-	position: relative;
-	height: 0;
-	z-index: 5;
-	background-color: transparent;
+.catalog-nav-horizontal {
+	display: flex;
+	align-items: center;
+	flex-wrap: nowrap;
+	margin: 0;
 	padding: 0;
 }
 
-.kallpa-subnav .container-xxl {
-	display: block !important;
-	width: auto !important;
-	max-width: none !important;
-	margin: 0 !important;
-	padding: 0 !important;
+.catalog-nav-horizontal > .list-container.level-1 {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 0.25rem;
+	width: auto;
 }
 
-.kallpa-subnav .catalog-filter-tree {
-	margin-inline-start: 0 !important;
+/* Cada categoría de primer nivel es un botón horizontal. */
+.catalog-nav-horizontal .cat-item {
+	position: relative;
+	list-style: none;
 }
 
-/* Categorias: boton hamburguesa fijo pegado al filo, unido al panel.
-   Al abrir, el panel sale y el boton se desliza a su borde derecho. */
-.kallpa-subnav .catalog-filter-tree .menu {
-	position: fixed;
-	top: 10rem;
-	left: 0;
-	z-index: 1033;
-	color: var(--ai-bg) !important;
-	background-color: var(--ai-secondary);
-	padding: 0.5rem 0.75rem;
-	border-radius: 0 0.6rem 0.6rem 0;
-	box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
-	transition: left .25s;
+.catalog-nav-horizontal .cat-item .item-links {
+	display: flex;
+	align-items: center;
+	margin: 0;
 }
 
-.kallpa-subnav .catalog-filter-tree.tree-open .menu {
-	left: 20rem;
+.catalog-nav-horizontal .cat-item .cat-link {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.5rem 0.9rem;
+	color: var(--ai-text, #222);
+	text-decoration: none;
+	font-weight: 500;
+	font-size: 0.95rem;
+	border-radius: 0.35rem;
+	white-space: nowrap;
+	transition: background-color .15s, color .15s;
+	width: auto;
 }
 
-/* Mismo alto que la barra "Categorias": igualar el tamano del icono al del texto del header */
-.kallpa-subnav .catalog-filter-tree .menu::before {
-	font-size: 125% !important;
+.catalog-nav-horizontal .cat-item .cat-link:hover,
+.catalog-nav-horizontal .cat-item .cat-link.active {
+	background-color: var(--ai-secondary, #f2f2f2);
+	color: var(--ai-primary, #000);
 }
 
-/* El panel deslizante arranca a la misma altura que el boton */
-.catalog-filter-tree .zeynep {
-	top: 10rem !important;
-}
-
-/* El mismo boton hamburguesa cierra: ocultar el boton de cerrar del panel */
-.catalog-filter-tree .zeynep .header .close {
+/* Ocultar media icons y la chevron ("next") del nivel 1 en el navbar;
+   no queremos iconos ni flechas visibles en la barra horizontal. */
+.catalog-nav-horizontal > .list-container.level-1 > .cat-item > .item-links .media-list,
+.catalog-nav-horizontal > .list-container.level-1 > .cat-item > .item-links .col-2 {
 	display: none;
 }
 
-/* Make the sidebar's hamburger (close) icon the same size as the open button */
-.catalog-filter-tree .zeynep .close::before {
-	font-size: 175% !important;
+.catalog-nav-horizontal .cat-item .cat-link .col-10,
+.catalog-nav-horizontal .cat-item .cat-link.col-10 {
+	flex: 0 0 auto;
+	width: auto;
+	max-width: none;
+	padding: 0;
+}
+
+/* --------- Dropdown de subcategorías (al hover del item padre) --------- */
+.catalog-nav-horizontal .cat-item .submenu {
+	display: none;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	min-width: 12rem;
+	background-color: var(--ai-bg, #fff);
+	border: 1px solid rgba(0, 0, 0, 0.08);
+	border-radius: 0.35rem;
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+	padding: 0.35rem 0;
+	z-index: 1050;
+}
+
+.catalog-nav-horizontal .cat-item.withchild:hover > .submenu,
+.catalog-nav-horizontal .cat-item.withchild:focus-within > .submenu {
+	display: block;
+}
+
+/* Oculta el header interno del submenu (back/name/close) que viene
+   del tree-partial original pensado para el sidebar Zeynep. */
+.catalog-nav-horizontal .submenu .row.header {
+	display: none;
+}
+
+/* Oculta la imagen grande del menú (.cat-img) que el tree-partial
+   mete al final de cada submenu del nivel 1 (era decoración del
+   sidebar lateral). */
+.catalog-nav-horizontal .submenu .cat-img {
+	display: none;
+}
+
+.catalog-nav-horizontal .submenu .cat-item .cat-link {
+	display: block;
+	padding: 0.45rem 0.9rem;
+	border-radius: 0;
+	font-weight: 400;
+}
+
+/* --------- Responsive: por debajo del breakpoint md, el menú colapsa
+   como lista vertical visible abajo del logo. Ocultamos subcategorías
+   (en móvil van en la página de la categoría). --------- */
+@media (max-width: 767px) {
+	.catalog-nav-horizontal {
+		width: 100%;
+		order: 10;
+		flex-basis: 100%;
+	}
+	.catalog-nav-horizontal > .list-container.level-1 {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0;
+		width: 100%;
+	}
+	.catalog-nav-horizontal .cat-item {
+		width: 100%;
+	}
+	.catalog-nav-horizontal .cat-item .cat-link {
+		width: 100%;
+		padding: 0.6rem 0.9rem;
+	}
+	.catalog-nav-horizontal .cat-item .submenu {
+		display: none !important;
+	}
 }
 
 .navbar .catalog-filter  .catalog-filter-price,
@@ -1665,23 +1737,6 @@ body > .content, body .main-section {
 	background-color: transparent;
 	color: #fff;
 	border: 1px solid rgba(255, 255, 255, 0.6);
-}
-
-/*----------------------------- Enlace "Inicio" en el navbar --------------------------------*/
-
-.navbar-home-link,
-.navbar-home-link:link,
-.navbar-home-link:visited {
-	color: var(--ai-bg) !important;
-	padding: 0.5rem 1rem;
-	font-size: 100%;
-	letter-spacing: 1.5px;
-	white-space: nowrap;
-	align-self: center;
-}
-
-.navbar-home-link:hover {
-	color: var(--ai-tertiary) !important;
 }
 
 /*----------------------------- Inicio: calendario / proximos acontecimientos --------------------------------*/

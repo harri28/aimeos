@@ -44,9 +44,9 @@
 			</button>
 
 			<div class="navbar-content">
-				@yield('aimeos_head_locale')
+				@yield('aimeos_head_nav')
 
-				<a class="navbar-home-link" href="/" title="Inicio">Inicio</a>
+				@yield('aimeos_head_locale')
 
 				@yield('aimeos_head_search')
 
@@ -83,10 +83,6 @@
 				@yield('aimeos_head_basket')
 			</div>
 		</nav>
-
-		<div class="kallpa-subnav">
-			@yield('aimeos_head_nav')
-		</div>
 
 		<div class="content">
 			@yield('aimeos_stage')
