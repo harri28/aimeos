@@ -855,14 +855,17 @@ body > .content, body .main-section {
 	margin: 0;
 }
 
-.catalog-nav-horizontal .cat-item .cat-link {
+.catalog-nav-horizontal .cat-item .cat-link,
+.catalog-nav-horizontal .cat-item .cat-link:link,
+.catalog-nav-horizontal .cat-item .cat-link:visited {
 	display: inline-flex;
 	align-items: center;
 	padding: 0.5rem 0.9rem;
-	color: var(--ai-text, #222);
+	color: var(--ai-bg, #f1ebe3) !important;
 	text-decoration: none;
 	font-weight: 500;
 	font-size: 0.95rem;
+	letter-spacing: 1px;
 	border-radius: 0.35rem;
 	white-space: nowrap;
 	transition: background-color .15s, color .15s;
@@ -870,9 +873,10 @@ body > .content, body .main-section {
 }
 
 .catalog-nav-horizontal .cat-item .cat-link:hover,
-.catalog-nav-horizontal .cat-item .cat-link.active {
-	background-color: var(--ai-secondary, #f2f2f2);
-	color: var(--ai-primary, #000);
+.catalog-nav-horizontal .cat-item .cat-link.active,
+.catalog-nav-horizontal .cat-item.active > .item-links > .cat-link {
+	background-color: rgba(255, 255, 255, 0.12);
+	color: var(--ai-tertiary, #c9b58f) !important;
 }
 
 /* Ocultar media icons y la chevron ("next") del nivel 1 en el navbar;
