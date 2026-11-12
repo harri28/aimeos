@@ -787,27 +787,38 @@ body > .content, body .main-section {
 }
 
 /* Desktop/tablet layout del navbar-content:
-   [menu categorias] [search (flex-grow)] [locale/login/basket (pegados derecha)]
-   El search fluye en el flex (ya no es absolute) para no pisar a los demas.
-   El locale lleva margin-start:auto para empujar el grupo derecho al borde. */
+   [spacer][menu categorias centrado][navbar-right: locale/lupa/cuenta/carrito]
+   El spacer y el navbar-right toman 1fr cada uno asi que el menu queda
+   centrado en el espacio sobrante del navbar-content. */
 @media (min-width:768px) {
-	/* El search ocupa solo lo que ocupa la lupa; el input vive
-	   en absolute a la izquierda de la lupa y se expande al hover/focus. */
-	.navbar-content > .section.catalog-filter {
-		flex: 0 0 auto;
-		position: relative;
-		margin: 0 1.25rem;
+	.navbar-spacer {
+		flex: 1 1 0;
+		min-width: 0;
 	}
 
-	.navbar-content > .section.catalog-filter > .container-xxl {
+	.catalog-nav-horizontal {
+		flex: 0 0 auto;
+	}
+
+	.navbar-right {
+		flex: 1 1 0;
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+		gap: 0.5rem;
+		min-width: 0;
+	}
+
+	.navbar-right > .section.catalog-filter {
+		flex: 0 0 auto;
+		position: relative;
+	}
+
+	.navbar-right > .section.catalog-filter > .container-xxl {
 		width: auto;
 		max-width: none;
 		padding-left: 0;
 		padding-right: 0;
-	}
-
-	.navbar-content > .locale-select {
-		margin-inline-start: auto;
 	}
 
 	/* "Lupa expandible": input oculto por defecto (width:0), se expande
@@ -831,6 +842,20 @@ body > .content, body .main-section {
 		width: 20rem !important;
 		padding-left: .75rem !important;
 		padding-right: .75rem !important;
+	}
+}
+
+/* Mobile: el spacer y el wrapper derecho vuelven a flujo normal */
+@media (max-width:767px) {
+	.navbar-spacer {
+		display: none;
+	}
+
+	.navbar-right {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		margin-inline-start: auto;
 	}
 }
 
