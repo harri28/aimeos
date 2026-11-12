@@ -813,20 +813,22 @@ body > .content, body .main-section {
 	   catalog-filter.css (diseno "lupa que se expande al click"). Como
 	   la barra ahora es siempre visible y vive dentro del navbar-content
 	   como flex item, ese absolute lo hacia flotar hacia la izquierda
-	   tapando los botones del menu de categorias. Lo devolvemos al flujo. */
+	   tapando los botones del menu de categorias. Lo devolvemos al flujo.
+	   Necesita !important porque catalog-filter.css se inyecta via
+	   aimeos_header DESPUES de aimeos.css y gana la cascada. */
 	.navbar .catalog-filter-search .value {
-		position: static;
-		right: auto;
-		width: 100%;
-		min-width: 0;
+		position: static !important;
+		right: auto !important;
+		width: 100% !important;
+		min-width: 0 !important;
 	}
 
 	.navbar .catalog-filter-search .input-group {
-		width: 100%;
+		width: 100% !important;
 	}
 
 	.navbar .catalog-filter-search .input-group input {
-		width: 100%;
+		width: 100% !important;
 	}
 }
 
