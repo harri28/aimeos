@@ -132,9 +132,9 @@ $after = is_array( $after ) ? $after['_'] ?? reset( $after ) : $after;
 	<nav class="main-sidebar">
 		<div class="sidebar-wrapper">
 
-			<a class="logo" href="/" style="display:flex;align-items:center;justify-content:center;height:100%;color:#fff;font-weight:700;font-size:1.1rem;text-decoration:none;">
+			<div class="brand" style="display:flex;align-items:center;justify-content:center;height:2.5rem;color:#fff;font-weight:700;font-size:1.1rem;">
 				Kallpa Room
-			</a>
+			</div>
 
 			<ul class="sidebar-menu">
 
