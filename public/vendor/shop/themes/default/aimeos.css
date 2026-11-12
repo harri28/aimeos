@@ -791,15 +791,16 @@ body > .content, body .main-section {
    El search fluye en el flex (ya no es absolute) para no pisar a los demas.
    El locale lleva margin-start:auto para empujar el grupo derecho al borde. */
 @media (min-width:768px) {
+	/* El search ocupa solo lo que ocupa la lupa; el input vive
+	   en absolute a la izquierda de la lupa y se expande al hover/focus. */
 	.navbar-content > .section.catalog-filter {
-		flex: 1 1 auto;
-		max-width: 32rem;
-		min-width: 0;
+		flex: 0 0 auto;
+		position: relative;
 		margin: 0 1.25rem;
 	}
 
 	.navbar-content > .section.catalog-filter > .container-xxl {
-		width: 100%;
+		width: auto;
 		max-width: none;
 		padding-left: 0;
 		padding-right: 0;
@@ -809,26 +810,27 @@ body > .content, body .main-section {
 		margin-inline-start: auto;
 	}
 
-	/* El input del search venia en position:absolute; right:100% de
-	   catalog-filter.css (diseno "lupa que se expande al click"). Como
-	   la barra ahora es siempre visible y vive dentro del navbar-content
-	   como flex item, ese absolute lo hacia flotar hacia la izquierda
-	   tapando los botones del menu de categorias. Lo devolvemos al flujo.
-	   Necesita !important porque catalog-filter.css se inyecta via
-	   aimeos_header DESPUES de aimeos.css y gana la cascada. */
+	/* "Lupa expandible": input oculto por defecto (width:0), se expande
+	   al hover sobre el .catalog-filter-search, al focus dentro, o si
+	   el input YA tiene texto escrito (:not(:placeholder-shown)).
+	   Usamos !important porque catalog-filter.css se inyecta via
+	   aimeos_header DESPUES de aimeos.css y gana la cascada en empate. */
 	.navbar .catalog-filter-search .value {
-		position: static !important;
-		right: auto !important;
-		width: 100% !important;
+		width: 0 !important;
 		min-width: 0 !important;
+		padding-left: 0 !important;
+		padding-right: 0 !important;
+		border: none !important;
+		transition: width .25s ease, padding .25s ease;
+		overflow: hidden;
 	}
 
-	.navbar .catalog-filter-search .input-group {
-		width: 100% !important;
-	}
-
-	.navbar .catalog-filter-search .input-group input {
-		width: 100% !important;
+	.navbar .catalog-filter-search:hover .value,
+	.navbar .catalog-filter-search:focus-within .value,
+	.navbar .catalog-filter-search .value:not(:placeholder-shown) {
+		width: 20rem !important;
+		padding-left: .75rem !important;
+		padding-right: .75rem !important;
 	}
 }
 
@@ -875,11 +877,11 @@ body > .content, body .main-section {
 .catalog-nav-horizontal .cat-item .cat-link:visited {
 	display: inline-flex;
 	align-items: center;
-	padding: 0.5rem 0.9rem;
+	padding: 0.6rem 1.1rem;
 	color: var(--ai-bg, #f1ebe3) !important;
 	text-decoration: none;
 	font-weight: 500;
-	font-size: 0.95rem;
+	font-size: 1.15rem;
 	letter-spacing: 1px;
 	border-radius: 0.35rem;
 	white-space: nowrap;
