@@ -2,15 +2,16 @@
 
 namespace Database\Seeders;
 
+use Aimeos\MShop;
+use Aimeos\MShop\Exception as MShopException;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use RuntimeException;
 
 /**
- * Imports Kallparoom customer rows from a private CSV file.
- * Copy the CSV to storage/app/private/kallparoom_customers.csv, then run:
+ * Imports Kallparoom customers from storage/app/private/kallparoom_customers.csv.
+ * Run after `php artisan aimeos:setup`:
  * php artisan db:seed --class='Database\Seeders\KallparoomCustomersSeeder'
- * Run after `php artisan aimeos:setup` has created the Aimeos tables.
  */
 class KallparoomCustomersSeeder extends Seeder
 {
@@ -31,7 +32,7 @@ class KallparoomCustomersSeeder extends Seeder
             $headers = fgetcsv($handle);
             $required = [
                 'siteid', 'code', 'label', 'firstname', 'lastname', 'address1',
-                'city', 'state', 'langid', 'countryid', 'email', 'password', 'status',
+                'city', 'state', 'langid', 'countryid', 'email', 'status',
             ];
 
             if (!is_array($headers) || array_diff($required, $headers)) {
@@ -60,22 +61,50 @@ class KallparoomCustomersSeeder extends Seeder
             throw new RuntimeException('Customer import CSV must contain exactly 73 unique customers.');
         }
 
-        $now = now()->toDateTimeString();
-        DB::transaction(function () use ($records, $now): void {
-            foreach ($records as $record) {
-                $key = [
-                    'siteid' => $record['siteid'],
-                    'code' => $record['code'],
-                ];
+        $context = app('aimeos.context')->get(false, 'command');
+        $context->setEditor('kallparoom-customer-seeder');
+        $localeManager = MShop::create($context, 'locale');
+        $locale = $localeManager->bootstrap(config('shop.mshop.locale.site', 'default'), '', '', false, null, true);
+        $context->setLocale($locale);
+        $manager = MShop::create($context, 'customer');
+        $processed = 0;
 
-                unset($record['siteid'], $record['code']);
-                $record['status'] = (int) $record['status'];
-                $record['mtime'] = $now;
-                $record['ctime'] = $now;
-                $record['editor'] = 'kallparoom-customer-seeder';
-
-                DB::table('mshop_customer')->updateOrInsert($key, $record);
+        foreach ($records as $record) {
+            try {
+                $item = $manager->find($record['code']);
+                $new = false;
+            } catch (MShopException $exception) {
+                $item = $manager->create();
+                $new = true;
             }
-        });
+
+            $item->setCode($record['code']);
+            $item->setLabel($record['label']);
+            $item->setStatus((int) $record['status']);
+
+            if ($new) {
+                $item->setPassword(bin2hex(random_bytes(32)));
+            }
+
+            $address = $item->getPaymentAddress();
+            $address->setFirstname($record['firstname']);
+            $address->setLastname($record['lastname']);
+            $address->setEmail($record['email']);
+            $address->setAddress1($record['address1']);
+            $address->setCity($record['city']);
+            $address->setState($record['state']);
+            $address->setLanguageId($record['langid']);
+            $address->setCountryId($record['countryid']);
+
+            $manager->save($item);
+            $processed++;
+        }
+
+        $removed = DB::table('mshop_customer')
+            ->where('siteid', self::SITE_ID)
+            ->where('editor', 'import-clientes-xlsx')
+            ->delete();
+
+        $this->command?->info("Processed {$processed} customers; removed {$removed} rows from the unused Aimeos customer table.");
     }
 }
